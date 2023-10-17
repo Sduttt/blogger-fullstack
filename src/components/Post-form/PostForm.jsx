@@ -22,7 +22,7 @@ const PostForm = ({ post }) => {
 
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? service.uploadFile(data.image[0]) : null;
+            const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
 
 
             if (file) {
@@ -39,14 +39,16 @@ const PostForm = ({ post }) => {
             }
         }
         else {
-            const file = data.image[0] ? service.uploadFile(data.image[0]) : null;
+            console.log(userData);
+
+            const file = await service.uploadFile(data.image[0])
 
             if (file) {
                 const fileID = file.$id
                 data.featuredImage = fileID
                 const dbPost = await service.createPost({
                     ...data,
-                    userId: userData.$id
+                    userId: userData.user.$id,
                 })
 
                 if (dbPost) {
@@ -71,9 +73,9 @@ const PostForm = ({ post }) => {
     )
 
     useEffect(() => {
-        const subscription = watch((value, {name}) => {
-            if(name === 'title') {
-                setValue('slug', slugTransform(value.title, {shouldValidate: true}))
+        const subscription = watch((value, { name }) => {
+            if (name === 'title') {
+                setValue('slug', slugTransform(value.title, { shouldValidate: true }))
             }
         })
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import service from "../appwrite/appwriteConfig"
 import { Container, PostCard } from "../components/index"
 
@@ -6,9 +6,7 @@ import { Container, PostCard } from "../components/index"
 const AllPosts = () => {
     const [posts, setPosts] = useState([])
 
-    useEffect(() => {
 
-    }, [])
 
     service.getPosts([])
         .then((posts) => {
@@ -25,7 +23,7 @@ const AllPosts = () => {
                     {
                         posts.map((post) => {
                             <div key={post.$id} className="p-2 w-1/4">
-                                <PostCard post={post} />
+                                <PostCard {...post} />
                             </div>
                         })
                     }

@@ -26,7 +26,7 @@ export class Service {
                 {
                     title,
                     content,
-                    featuredImage,
+                    featuredImage, 
                     status,
                     userId
                 }
@@ -85,7 +85,7 @@ export class Service {
 
     async getPosts(queries = [Query.equal('status', 'active')]){
         try {
-            return await this.getDocument.listDocuments(
+            return await this.databases.listDocuments(
                 config.databaseId,
                 config.collectionId,
                 queries
@@ -123,15 +123,16 @@ export class Service {
         }
     }
 
-    async getFile(fileId) {
+    getFile(fileId) {
         try {
-            return await this.bucket.getFileView(
+            return this.bucket.getFilePreview(
                 config.bucketId,
                 fileId
             )
         } catch (error) {
             throw error;
         }
+        
     }
 
 }
